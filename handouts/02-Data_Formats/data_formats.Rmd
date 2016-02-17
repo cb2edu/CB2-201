@@ -72,3 +72,5 @@ Bert Voglestein in a Science paper published in 2013 (PMID: 23539594) reported a
 
 http://www.uniprot.org/uniprot/?query=organism:9606+AND+gene:BRCA1&format=tab&columns=id,reviewed
 
+# Problem 2
+Download the Swissprot FASTA file from the UNIPROT website. Write a python script to extract the sequences corresponding to the IDs created in Problem 1 from this file. 
