@@ -7,6 +7,7 @@ output:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
+  word_document: default
 fontsize: 11pt
 mainfont: Minion Pro
 mathfont: Palatino
@@ -143,6 +144,27 @@ Volcano plot is a good way to show the differentially expressed genes. For that 
 data<-read.table("expression.results.txt")
 plot(log2(data$RealFC),data$PPDE,xlab="Fold change",ylab="P-value")
 ```
+
+# EDGER
+
+```{r}
+raw.data <- read.table("../data/pnas_expression.txt",header=T)
+head(raw.data)
+counts <- raw.data[ , -c(1,ncol(raw.data))]
+rownames(counts) <- raw.data$ensembl_ID
+colnames(counts)  <- paste(c(rep("C_R",4),rep("T_R",3)),c(1:4,1:3),sep="")
+
+library(edgeR)
+group <- c(rep("C", 4) , rep("T", 3))
+cds <- DGEList( counts , group = group )
+cds <- calcNormFactors(cds)
+design <- model.matrix(~group)
+y <- estimateDisp(cds, design)
+fit <- glmQLFit(y,design)
+qlf <- glmQLFTest(fit,coef=2)
+topTags(qlf)
+```
+
 
 
 
